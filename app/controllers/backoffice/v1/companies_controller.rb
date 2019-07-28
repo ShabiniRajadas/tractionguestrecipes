@@ -1,12 +1,19 @@
 module Backoffice
   module V1
     class CompaniesController < ::Backoffice::ApplicationController
+    	include ActiveModel::Validations
+      	respond_to :json, :jsonapi
+
     	def index
     		companies = Company.all
     		show_response(companies, 'index')
     	end
 
     	def create
+    		company = ::Company.new(permitted_params)
+        	company.uid = SecureRandom.uuid
+        	new_company = company.save ? company : error_serializer.serialize(company.errors)
+        	show_response(new_company, 'create')
     	end
 
     	def show
@@ -21,7 +28,7 @@ module Backoffice
     	private
 
     	def permitted_params
-    		params.require(:data).require(:attributes).require(:name, :description, :url, :image)
+    		params.require(:data).require(:attributes).permit(:name, :description, :url, :image)
     	end
 
     	def serializer
