@@ -3,8 +3,8 @@ FactoryBot.define do
   # So company renamed as :company_record
   factory :company_record, class: Company do
     sequence(:uid) { |n| "#{n}-company" }
-    sequence(:name) { |n| "Company Name #{n}"}
-    url { 'testing.com'}
+    sequence(:name) { |n| "Company Name #{n}" }
+    url { 'testing.com' }
     description { 'Testing' }
   end
 end
