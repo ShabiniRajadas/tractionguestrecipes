@@ -1,0 +1,14 @@
+AllCops:
+  Exclude:
+  - db/**/*
+
+Metrics/LineLength:
+  Exclude:
+  - bin/**/*
+  - config/**/*
+  - spec/rails_helper.rb
+  - spec/spec_helper.rb
+
+Style/MixinUsage:
+  Exclude:
+  - bin/**/*

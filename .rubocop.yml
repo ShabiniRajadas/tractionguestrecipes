@@ -1,2 +1,13 @@
+inherit_from: .rubocop_todo.yml
+
+inherit_mode:
+  merge:
+  - Include
+  override:
+  - Exclude
+
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
   Enabled: false
