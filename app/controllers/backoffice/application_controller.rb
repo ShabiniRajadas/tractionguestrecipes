@@ -22,16 +22,36 @@ module Backoffice
       end
     end
 
+    def error_serializer
+      ::Backoffice::V1::ErrorSerializer
+    end
+
     private
 
-    def htauth(name = ENV['BACKOFFICE_HTAUTH_USERNAME'], password = ENV['BACKOFFICE_HTAUTH_PASSWORD'])
+    def htauth(name = http_username, password = http_password)
       authenticate_or_request_with_http_basic do |user_name, user_password|
         (user_name == name && user_password == password)
       end
     end
 
+    def http_username
+      ENV['BACKOFFICE_HTAUTH_USERNAME']
+    end
+
+    def http_password
+      ENV['BACKOFFICE_HTAUTH_PASSWORD']
+    end
+
     def find_status(resource)
-      resource.class == Hash && resource[:errors].present? ? STATUS_CODE_MAPPINGS['error'] : STATUS_CODE_MAPPINGS['created']
+      resource.class == Hash && resource[:errors].present? ? error : created
+    end
+
+    def error
+      STATUS_CODE_MAPPINGS['error']
+    end
+
+    def created
+      STATUS_CODE_MAPPINGS['created']
     end
   end
 end
