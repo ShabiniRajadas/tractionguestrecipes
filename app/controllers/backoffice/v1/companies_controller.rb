@@ -27,7 +27,10 @@ module Backoffice
         show_response(updated_company, action_name)
       end
 
-      def destroy; end
+      def destroy
+        company.destroy
+        head :no_content
+      end
 
       private
 
