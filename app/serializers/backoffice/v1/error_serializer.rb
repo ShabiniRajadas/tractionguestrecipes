@@ -7,7 +7,7 @@ module Backoffice
         result = {}
         new_hash = errors.to_hash(true).map do |key, value|
           value.map do |msg|
-            {title: key, code: key, details: msg}
+            { title: key, code: key, details: msg }
           end
         end
         new_hash = new_hash.flatten
