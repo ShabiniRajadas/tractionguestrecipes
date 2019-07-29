@@ -60,6 +60,7 @@ RSpec.configure do |config|
   config.include AuthHelper, type: :controller
   config.include SerializerSpecHelper, type: :serializer
   config.include SerializerSpecHelper, type: :controller
+  config.include ResponseHelper, type: :controller
 
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
