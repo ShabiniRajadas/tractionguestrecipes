@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Backoffice::V1::CompaniesController do
   describe '#index' do
-    let(:company) { create(:company_record) }
+    let(:company) { FactoryBot.create(:company_record) }
     let(:do_request) { get(:index) }
     let(:expected_body) do
       [serialize_as_json(company, serializer_class: Backoffice::V1::CompanySerializer)].to_json
@@ -20,7 +20,7 @@ RSpec.describe Backoffice::V1::CompaniesController do
   end
 
   describe '#show' do
-    let(:company) { create(:company_record) }
+    let(:company) { FactoryBot.create(:company_record) }
     let(:do_request) { get(:show, params: { id: company.id }) }
     let(:expected_body) { serialize_as_json(company, serializer_class: Backoffice::V1::CompanySerializer).stringify_keys }
 
@@ -53,7 +53,8 @@ RSpec.describe Backoffice::V1::CompaniesController do
           type: 'company',
           attributes: {
             name: 'company_name',
-            url: 'testing.com'
+            url: 'testing.com',
+            description: 'Testing'
           }
         }
       }
@@ -75,7 +76,10 @@ RSpec.describe Backoffice::V1::CompaniesController do
         'data' => {
           'attributes' => {
             'uid' => json_response_body['data']['attributes']['uid'],
-            'name' => 'company_name'
+            'name' => 'company_name',
+            'url' => 'testing.com',
+            'description' => "Testing",
+            'image' => nil
           },
           'id' => json_response_body['data']['id'],
           'type' => 'company'
