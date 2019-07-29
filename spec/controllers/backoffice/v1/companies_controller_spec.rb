@@ -40,6 +40,7 @@ RSpec.describe Backoffice::V1::CompaniesController do
         'data' =>
           {
             'id' => company.id.to_s,
+            'type' => 'company',
             'attributes' => expected_body.except!('id')
           }
       )
@@ -78,7 +79,7 @@ RSpec.describe Backoffice::V1::CompaniesController do
             'uid' => json_response_body['data']['attributes']['uid'],
             'name' => 'company_name',
             'url' => 'testing.com',
-            'description' => "Testing",
+            'description' => 'Testing',
             'image' => nil
           },
           'id' => json_response_body['data']['id'],
