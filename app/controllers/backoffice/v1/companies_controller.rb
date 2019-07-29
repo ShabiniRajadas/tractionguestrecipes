@@ -3,6 +3,7 @@ module Backoffice
     class CompaniesController < ::Backoffice::ApplicationController
       include ActiveModel::Validations
       respond_to :json, :jsonapi
+      before_action :load_company, except: %i[create index]
 
       def index
         companies = Company.all
@@ -16,7 +17,9 @@ module Backoffice
         show_response(new_company, 'create')
       end
 
-      def show; end
+      def show
+        show_response(company, 'show')
+      end
 
       def update; end
 
@@ -46,6 +49,24 @@ module Backoffice
                adapter: :json_api,
                key_transform: :underscore,
                status: status(resource, method_name)
+      end
+
+      def company
+        @company ||= ::Company.find_by(id: params[:id])
+      end
+
+      def load_company
+        return company_not_found unless company
+      end
+
+      def company_not_found
+        errors.add(:company, 'not found')
+        resource = error_serializer.serialize(errors)
+        render json: resource,
+               each_serializer: serializer,
+               adapter: :json_api,
+               key_transform: :underscore,
+               status: status(resource)
       end
     end
   end
