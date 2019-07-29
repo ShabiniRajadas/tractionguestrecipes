@@ -7,21 +7,25 @@ module Backoffice
 
       def index
         companies = Company.all
-        show_response(companies, 'index')
+        show_response(companies, action_name)
       end
 
       def create
         company = ::Company.new(permitted_params)
         company.uid = SecureRandom.uuid
         new_company = company.save ? company : error_response(company.errors)
-        show_response(new_company, 'create')
+        show_response(new_company, action_name)
       end
 
       def show
         show_response(company, 'show')
       end
 
-      def update; end
+      def update
+      	company.assign_attributes(permitted_params)
+      	updated_company = company.save ? company.reload : company.errors
+      	show_response(updated_company, action_name)
+      end
 
       def destroy; end
 
