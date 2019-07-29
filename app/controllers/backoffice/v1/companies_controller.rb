@@ -22,9 +22,9 @@ module Backoffice
       end
 
       def update
-      	company.assign_attributes(permitted_params)
-      	updated_company = company.save ? company.reload : company.errors
-      	show_response(updated_company, action_name)
+        company.assign_attributes(permitted_params)
+        updated_company = company.save ? company.reload : company.errors
+        show_response(updated_company, action_name)
       end
 
       def destroy; end
