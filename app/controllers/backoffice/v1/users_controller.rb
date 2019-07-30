@@ -8,7 +8,17 @@ module Backoffice
         show_response(users, serializer, action_name)
       end
 
+      def create
+        user = User.new(permitted_params)
+        new_user = user.save ? user : error_response(user.errors)
+        show_response(new_user, serializer, action_name)
+      end
+
       private
+
+      def permitted_params
+        params.require(:data).require(:attributes).permit(:email)
+      end
 
       def serializer
         ::Backoffice::V1::UserSerializer

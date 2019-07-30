@@ -46,8 +46,7 @@ RSpec.describe Backoffice::V1::UsersController do
       expect(json_response_body).to eq(
         'data' => {
           'attributes' => {
-            'email' => 'sample@sample.com',
-            'name' => ''
+            'email' => 'sample@sample.com'
           },
           'id' => json_response_body['data']['id'],
           'type' => 'user'
