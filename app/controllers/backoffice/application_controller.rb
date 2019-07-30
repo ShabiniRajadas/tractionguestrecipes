@@ -26,6 +26,14 @@ module Backoffice
       ::Backoffice::V1::ErrorSerializer
     end
 
+    def show_response(resource, serializer, method_name = nil)
+      render json: resource,
+             each_serializer: serializer,
+             adapter: :json_api,
+             key_transform: :underscore,
+             status: status(resource, method_name)
+    end
+
     private
 
     def htauth(name = http_username, password = http_password)

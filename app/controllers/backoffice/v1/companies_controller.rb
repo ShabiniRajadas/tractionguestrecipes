@@ -7,24 +7,24 @@ module Backoffice
 
       def index
         companies = Company.all
-        show_response(companies, action_name)
+        show_response(companies, serializer, action_name)
       end
 
       def create
         company = ::Company.new(permitted_params)
         company.uid = SecureRandom.uuid
         new_company = company.save ? company : error_response(company.errors)
-        show_response(new_company, action_name)
+        show_response(new_company, serializer, action_name)
       end
 
       def show
-        show_response(company, 'show')
+        show_response(company, serializer, 'show')
       end
 
       def update
         company.assign_attributes(permitted_params)
         updated_company = company.save ? company.reload : company.errors
-        show_response(updated_company, action_name)
+        show_response(updated_company, serializer, action_name)
       end
 
       def destroy
@@ -47,15 +47,6 @@ module Backoffice
 
       def error_response(errors)
         error_serializer.serialize(errors)
-      end
-
-      def show_response(query, method_name = nil)
-        resource = query
-        render json: resource,
-               each_serializer: serializer,
-               adapter: :json_api,
-               key_transform: :underscore,
-               status: status(resource, method_name)
       end
 
       def company
