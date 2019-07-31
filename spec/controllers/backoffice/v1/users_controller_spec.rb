@@ -54,4 +54,19 @@ RSpec.describe Backoffice::V1::UsersController do
       )
     end
   end
+
+  describe 'destroy' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:do_request) { delete :destroy, params: {id: user.id}, format: :json }
+
+    before do
+      http_login
+      user
+    end
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+  end
 end

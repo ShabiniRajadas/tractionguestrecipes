@@ -17,4 +17,4 @@ Style/MixinUsage:
 
 Metrics/BlockLength:
   Exclude:
-  - spec/controllers/backoffice/v1/companies_controller_spec.rb
+  - spec/controllers/backoffice/v1/*
