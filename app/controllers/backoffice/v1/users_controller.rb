@@ -1,7 +1,7 @@
 module Backoffice
   module V1
     class UsersController < ::Backoffice::ApplicationController
-    	include ActiveModel::Validations
+      include ActiveModel::Validations
       respond_to :json, :jsonapi
       before_action :load_user, only: %i[destroy]
 
@@ -17,7 +17,7 @@ module Backoffice
       end
 
       def destroy
-      	user.destroy
+        user.destroy
         head :no_content
       end
 
@@ -32,7 +32,7 @@ module Backoffice
       end
 
       def user
-      	@user ||= User.find(params[:id])
+        @user ||= User.find(params[:id])
       end
 
       def load_user
