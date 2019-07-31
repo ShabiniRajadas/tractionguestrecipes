@@ -24,7 +24,7 @@ module Backoffice
       private
 
       def permitted_params
-        params.require(:data).require(:attributes).permit(:email)
+        params.require(:data).require(:attributes).permit(:email, :password)
       end
 
       def serializer
