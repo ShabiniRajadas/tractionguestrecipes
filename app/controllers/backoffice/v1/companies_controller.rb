@@ -45,10 +45,6 @@ module Backoffice
         ::Backoffice::V1::CompanySerializer
       end
 
-      def error_response(errors)
-        error_serializer.serialize(errors)
-      end
-
       def company
         @company ||= ::Company.find_by(id: params[:id])
       end
