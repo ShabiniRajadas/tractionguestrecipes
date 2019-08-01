@@ -25,7 +25,8 @@ RSpec.describe Backoffice::V1::UsersController do
         data: {
           type: 'user',
           attributes: {
-            email: 'sample@sample.com'
+            email: 'sample@sample.com',
+            password: "password"
           }
         }
       }
