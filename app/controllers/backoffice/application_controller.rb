@@ -37,7 +37,7 @@ module Backoffice
     def error_response(errors)
       error_serializer.serialize(errors)
     end
-    
+
     private
 
     def htauth(name = http_username, password = http_password)
