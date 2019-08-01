@@ -20,13 +20,15 @@ RSpec.describe Backoffice::V1::UsersController do
   end
 
   describe '#create' do
+    let(:company) { FactoryBot.create(:company_record) }
     let(:user_params) do
       {
         data: {
           type: 'user',
           attributes: {
             email: 'sample@sample.com',
-            password: "password"
+            password: 'password',
+            company_id: company.id
           }
         }
       }

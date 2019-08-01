@@ -28,7 +28,8 @@ module Backoffice
               .require(:attributes)
               .permit(:email,
                       :password,
-                      :password_confirmation)
+                      :password_confirmation,
+                      :company_id)
       end
 
       def serializer

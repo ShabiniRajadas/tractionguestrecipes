@@ -3,5 +3,6 @@ FactoryBot.define do
     sequence(:email) { |n| "sample@test#{n}.com" }
     password { 'password' }
     password_confirmation { 'password' }
+    association :company, factory: :company_record
   end
 end
