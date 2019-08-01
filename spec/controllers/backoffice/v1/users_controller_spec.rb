@@ -27,16 +27,23 @@ RSpec.describe Backoffice::V1::UsersController do
           type: 'user',
           attributes: {
             email: 'sample@sample.com',
-            password: 'password',
-            company_id: company.id
+            password: 'password'
           }
         }
       }
     end
     let(:do_request) { post(:create, params: user_params) }
 
+    let(:headers) do
+      {
+        'Accept' => 'application/json',
+        'COMPANY' => company.uid
+      }
+    end
+
     before do
       http_login
+      headers.each { |k, v| request.headers[k] = v }
     end
 
     it 'responds with success' do
@@ -49,7 +56,8 @@ RSpec.describe Backoffice::V1::UsersController do
       expect(json_response_body).to eq(
         'data' => {
           'attributes' => {
-            'email' => 'sample@sample.com'
+            'email' => 'sample@sample.com',
+            'company_uid' => company.uid
           },
           'id' => json_response_body['data']['id'],
           'type' => 'user'
