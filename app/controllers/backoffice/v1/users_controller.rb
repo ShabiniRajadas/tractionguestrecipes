@@ -12,6 +12,7 @@ module Backoffice
 
       def create
         user = User.new(permitted_params)
+        user.company = company
         new_user = user.save ? user : error_response(user.errors)
         show_response(new_user, serializer, action_name)
       end
@@ -28,8 +29,7 @@ module Backoffice
               .require(:attributes)
               .permit(:email,
                       :password,
-                      :password_confirmation,
-                      :company_id)
+                      :password_confirmation)
       end
 
       def serializer

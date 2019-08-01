@@ -38,6 +38,10 @@ module Backoffice
       error_serializer.serialize(errors)
     end
 
+    def company
+      @company ||= ::CompanyExtractor.new(request.headers).call
+    end
+
     private
 
     def htauth(name = http_username, password = http_password)
