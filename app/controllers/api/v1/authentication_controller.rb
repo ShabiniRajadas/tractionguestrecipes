@@ -20,8 +20,10 @@ module Api
       end
 
       def token_generation(user)
-        token = JsonWebToken.encode(user_id: user.id)
-        time = Time.now + 24.hours.to_i
+        time = Time.now + 2.hours.to_i
+        payload = { user_id: user.id }
+        token = JsonWebToken.encode(payload, time)
+
         render json: { token: token, exp: time.strftime('%m-%d-%Y %H:%M'),
                        username: user.name }, status: :ok
       end
