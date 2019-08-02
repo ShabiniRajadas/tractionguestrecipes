@@ -27,7 +27,8 @@ module Backoffice
       def permitted_params
         params.require(:data)
               .require(:attributes)
-              .permit(:email,
+              .permit(:name,
+                      :email,
                       :password,
                       :password_confirmation)
       end

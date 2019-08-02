@@ -26,6 +26,7 @@ RSpec.describe Backoffice::V1::UsersController do
         data: {
           type: 'user',
           attributes: {
+            name: 'test',
             email: 'sample@sample.com',
             password: 'password'
           }
@@ -56,6 +57,7 @@ RSpec.describe Backoffice::V1::UsersController do
       expect(json_response_body).to eq(
         'data' => {
           'attributes' => {
+            'name' => 'test',
             'email' => 'sample@sample.com',
             'company_uid' => company.uid
           },
