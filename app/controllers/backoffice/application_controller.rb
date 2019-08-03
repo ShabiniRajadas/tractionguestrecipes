@@ -11,13 +11,14 @@ module Backoffice
                              'success' => 200 }.freeze
 
     def status(resource, method_name = nil)
-      if method_name == 'index'
+      case method_name
+      when 'index'
         find_status(resource)
-      elsif resource[:errors].present?
-        STATUS_CODE_MAPPINGS['error']
-      elsif method_name == 'create'
+      when 'create'
         STATUS_CODE_MAPPINGS['created']
       else
+        return STATUS_CODE_MAPPINGS['error'] if resource[:errors].present?
+
         STATUS_CODE_MAPPINGS['success']
       end
     end
