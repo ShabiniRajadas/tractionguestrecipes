@@ -5,6 +5,7 @@ module Api
       include ActiveModel::Validations
       before_action :authorize_request, except: :index
       before_action :load_category, except: %i[create index]
+      before_action :load_company
 
       def index
         categories = Category.where(company_id: company.id)
