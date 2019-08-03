@@ -16,8 +16,15 @@ module Api
         ing = Ingredient.new(permitted_params)
         ing.company = company
         ing.uid = SecureRandom.uuid
-        ing.measurement_unit = Ingredient::MEASUREMENT_UNIT['grams']
+        ing.measurement_unit = measurement_unit
         result = ing.save ? ing : error_response(ing.errors)
+        show_response(result, serializer, action_name)
+      end
+
+      def update
+        ingredient.assign_attributes(permitted_params)
+        ingredient.measurement_unit = measurement_unit
+        result = ingredient.save ? ingredient.reload : ingredient.errors
         show_response(result, serializer, action_name)
       end
 
@@ -54,6 +61,10 @@ module Api
                adapter: :json_api,
                key_transform: :underscore,
                status: status(resource)
+      end
+
+      def measurement_unit
+        Ingredient::MEASUREMENT_UNIT[permitted_params[:measurement_unit]]
       end
     end
   end

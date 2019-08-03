@@ -37,7 +37,7 @@ RSpec.describe Api::V1::IngredientsController do
             name: 'test',
             description: 'starters',
             unit_price: 10.0,
-            measurement_unit: 1
+            measurement_unit: 'grams'
           }
         }
       }
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::IngredientsController do
             'name' => 'test',
             'description' => 'starters',
             'company_uid' => company.uid,
-            'measurement_unit' => 1,
+            'measurement_unit' => 'grams',
             'unit_price' => 10.0
           },
           'id' => json_response_body['data']['id'],
@@ -86,6 +86,46 @@ RSpec.describe Api::V1::IngredientsController do
             'type' => 'ingredient',
             'attributes' => expected_body.except!('id')
           }
+      )
+    end
+  end
+
+  describe '#update' do
+    let(:ingredient) { FactoryBot.create(:ingredient, company: company) }
+    let(:ingredient_params) do
+      {
+        id: ingredient.id,
+        data: {
+          type: 'ingredient',
+          attributes: {
+            name: 'Chilly Powder',
+            description: 'testing',
+            measurement_unit: 'grams'
+          }
+        }
+      }
+    end
+    let(:do_request) { put(:update, params: ingredient_params) }
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+
+    it 'responds with ingredient' do
+      do_request
+      expect(json_response_body).to eq(
+        'data' => {
+          'attributes' => {
+            'name' => 'Chilly Powder',
+            'description' => 'testing',
+            'company_uid' => company.uid,
+            'measurement_unit' => 'grams',
+            'unit_price' => 10.0
+          },
+          'id' => json_response_body['data']['id'],
+          'type' => 'ingredient'
+        }
       )
     end
   end
