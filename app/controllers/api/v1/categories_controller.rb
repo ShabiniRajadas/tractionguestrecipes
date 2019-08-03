@@ -2,7 +2,9 @@ module Api
   module V1
     class CategoriesController < ::Api::ApplicationController
       include JsonResponseHelper
+      include ActiveModel::Validations
       before_action :authorize_request, except: :index
+      before_action :load_category, except: %i[create index]
 
       def index
         categories = Category.where(company_id: company.id)
@@ -50,7 +52,7 @@ module Api
       end
 
       def load_category
-        return company_not_found unless company
+        return category_not_found unless company
       end
 
       def category_not_found
