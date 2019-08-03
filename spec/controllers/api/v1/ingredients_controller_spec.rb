@@ -27,4 +27,43 @@ RSpec.describe Api::V1::IngredientsController do
       expect(response).to be_successful
     end
   end
+
+  describe '#create' do
+    let(:ingredient_params) do
+      {
+        data: {
+          type: 'ingredient',
+          attributes: {
+            name: 'test',
+            description: 'starters',
+            unit_price: 10.0,
+            measurement_unit: 1
+          }
+        }
+      }
+    end
+    let(:do_request) { post(:create, params: ingredient_params) }
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+
+    it 'responds with ingredient' do
+      do_request
+      expect(json_response_body).to eq(
+        'data' => {
+          'attributes' => {
+            'name' => 'test',
+            'description' => 'starters',
+            'company_uid' => company.uid,
+            'measurement_unit' => 1,
+            'unit_price' => 10.0
+          },
+          'id' => json_response_body['data']['id'],
+          'type' => 'ingredient'
+        }
+      )
+    end
+  end
 end

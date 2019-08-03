@@ -62,5 +62,5 @@ module JsonResponseHelper
            adapter: :json_api,
            key_transform: :underscore,
            status: status(resource)
-      end
+  end
 end
