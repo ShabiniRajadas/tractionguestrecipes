@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resource :auth, controller: :authentication do
         post :login, on: :collection
       end
+      resources :categories
     end
   end
 end
