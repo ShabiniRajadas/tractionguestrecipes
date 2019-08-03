@@ -52,7 +52,7 @@ RSpec.describe Backoffice::V1::UsersController do
       expect(response).to be_successful
     end
 
-    it 'responds with companies' do
+    it 'responds with users' do
       do_request
       expect(json_response_body).to eq(
         'data' => {

@@ -19,3 +19,4 @@ Style/MixinUsage:
 Metrics/BlockLength:
   Exclude:
   - spec/controllers/backoffice/v1/*
+  - spec/controllers/api/v1/*
