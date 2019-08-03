@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Company do
   describe 'validations' do
-    let(:company) { FactoryBot.create(:company_record) }
+    let(:company) { FactoryBot.create(:company) }
 
     it 'validates name' do
       company.name = ''

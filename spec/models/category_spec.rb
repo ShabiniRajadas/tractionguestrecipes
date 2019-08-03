@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Category do
   describe 'validations' do
-    let(:category) { FactoryBot.create(:category_record) }
+    let(:category) { FactoryBot.create(:category) }
 
     it 'validates name' do
       category.name = ''

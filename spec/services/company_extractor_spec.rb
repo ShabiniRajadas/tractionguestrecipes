@@ -7,7 +7,7 @@ describe CompanyExtractor do
     let(:uid) { 'qiygqgwyqu877656vbahvs' }
 
     context 'when partner present' do
-      let!(:company) { create(:company_record, uid: uid) }
+      let!(:company) { create(:company, uid: uid) }
 
       context 'when header present' do
         let(:headers) { { 'COMPANY' => uid } }

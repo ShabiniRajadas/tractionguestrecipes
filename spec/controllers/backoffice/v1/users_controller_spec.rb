@@ -20,7 +20,7 @@ RSpec.describe Backoffice::V1::UsersController do
   end
 
   describe '#create' do
-    let(:company) { FactoryBot.create(:company_record) }
+    let(:company) { FactoryBot.create(:company) }
     let(:user_params) do
       {
         data: {

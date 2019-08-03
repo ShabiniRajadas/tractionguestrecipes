@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CategoriesController do
-  let(:company) { FactoryBot.create(:company_record) }
+  let(:company) { FactoryBot.create(:company) }
   let(:user) { FactoryBot.create(:user, company_id: company.id) }
 
   let(:headers) do
@@ -16,7 +16,7 @@ RSpec.describe Api::V1::CategoriesController do
   end
 
   describe '#index' do
-    let(:category) { FactoryBot.create(:category_record, company_id: company.id) }
+    let(:category) { FactoryBot.create(:category, company_id: company.id) }
     let(:do_request) { get(:index) }
     let(:expected_body) do
       [serialize_as_json(category, serializer_class: Api::V1::CategorySerializer)].to_json
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::CategoriesController do
   end
 
   describe '#show' do
-    let(:category) { FactoryBot.create(:category_record, company: company) }
+    let(:category) { FactoryBot.create(:category, company: company) }
     let(:do_request) { get(:show, params: { id: category.id }) }
     let(:expected_body) { serialize_as_json(category, serializer_class: Api::V1::CategorySerializer).stringify_keys }
 
@@ -87,7 +87,7 @@ RSpec.describe Api::V1::CategoriesController do
   end
 
   describe '#update' do
-    let(:category) { FactoryBot.create(:category_record, company: company) }
+    let(:category) { FactoryBot.create(:category, company: company) }
     let(:category_params) do
       {
         id: category.id,

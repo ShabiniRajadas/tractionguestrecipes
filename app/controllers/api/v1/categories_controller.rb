@@ -52,7 +52,7 @@ module Api
       end
 
       def load_category
-        return category_not_found unless company
+        return category_not_found unless category
       end
 
       def category_not_found
