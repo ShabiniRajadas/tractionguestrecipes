@@ -66,4 +66,27 @@ RSpec.describe Api::V1::IngredientsController do
       )
     end
   end
+
+  describe '#show' do
+    let(:ingredient) { FactoryBot.create(:ingredient, company: company) }
+    let(:do_request) { get(:show, params: { id: ingredient.id }) }
+    let(:expected_body) { serialize_as_json(ingredient, serializer_class: Api::V1::IngredientSerializer).stringify_keys }
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+
+    it 'responds with ingredient' do
+      do_request
+      expect(json_response_body).to eq(
+        'data' =>
+          {
+            'id' => ingredient.id.to_s,
+            'type' => 'ingredient',
+            'attributes' => expected_body.except!('id')
+          }
+      )
+    end
+  end
 end

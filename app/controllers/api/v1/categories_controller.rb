@@ -4,8 +4,8 @@ module Api
       include JsonResponseHelper
       include ActiveModel::Validations
       before_action :authorize_request, except: :index
-      before_action :load_category, except: %i[create index]
       before_action :load_company
+      before_action :load_category, except: %i[create index]
 
       def index
         categories = Category.where(company_id: company.id)
