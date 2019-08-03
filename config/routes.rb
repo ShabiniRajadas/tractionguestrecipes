@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         post :login, on: :collection
       end
       resources :categories
+      resources :ingredients
     end
   end
 end

@@ -36,6 +36,10 @@ module JsonResponseHelper
     @company ||= ::CompanyExtractor.new(request.headers).call
   end
 
+  def load_company
+    return company_not_found unless company
+  end
+
   private
 
   def find_status(resource)
@@ -49,4 +53,14 @@ module JsonResponseHelper
   def created
     STATUS_CODE_MAPPINGS['created']
   end
+
+  def company_not_found
+        errors.add(:company, 'not found')
+        resource = error_serializer.serialize(errors)
+        render json: resource,
+               each_serializer: serializer,
+               adapter: :json_api,
+               key_transform: :underscore,
+               status: status(resource)
+      end
 end
