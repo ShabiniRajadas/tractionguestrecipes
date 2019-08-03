@@ -55,12 +55,12 @@ module JsonResponseHelper
   end
 
   def company_not_found
-        errors.add(:company, 'not found')
-        resource = error_serializer.serialize(errors)
-        render json: resource,
-               each_serializer: serializer,
-               adapter: :json_api,
-               key_transform: :underscore,
-               status: status(resource)
+    errors.add(:company, 'not found')
+    resource = error_serializer.serialize(errors)
+    render json: resource,
+           each_serializer: serializer,
+           adapter: :json_api,
+           key_transform: :underscore,
+           status: status(resource)
       end
 end
