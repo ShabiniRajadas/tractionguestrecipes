@@ -3,6 +3,7 @@ module Backoffice
     class UsersController < ::Backoffice::ApplicationController
       include ActiveModel::Validations
       respond_to :json, :jsonapi
+      before_action :load_company
       before_action :load_user, only: %i[destroy]
 
       def index

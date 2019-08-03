@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Backoffice::V1::UsersController do
+  let(:company) { FactoryBot.create(:company) }
+
+  let(:headers) do
+    {
+      'Accept' => 'application/json',
+      'COMPANY' => company.uid
+    }
+  end
+
+  before do
+    http_login
+    headers.each { |k, v| request.headers[k] = v }
+  end
+
   describe '#index' do
     let(:user) { FactoryBot.create(:user) }
     let(:do_request) { get(:index) }
@@ -20,7 +34,6 @@ RSpec.describe Backoffice::V1::UsersController do
   end
 
   describe '#create' do
-    let(:company) { FactoryBot.create(:company) }
     let(:user_params) do
       {
         data: {
@@ -34,18 +47,6 @@ RSpec.describe Backoffice::V1::UsersController do
       }
     end
     let(:do_request) { post(:create, params: user_params) }
-
-    let(:headers) do
-      {
-        'Accept' => 'application/json',
-        'COMPANY' => company.uid
-      }
-    end
-
-    before do
-      http_login
-      headers.each { |k, v| request.headers[k] = v }
-    end
 
     it 'responds with success' do
       do_request
