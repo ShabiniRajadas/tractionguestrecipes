@@ -1,7 +1,7 @@
 module Api
   module V1
     class CategoriesController < ::Api::ApplicationController
-      include ResponseHelper
+      include JsonResponseHelper
       before_action :authorize_request, except: :index
 
       def index

@@ -1,7 +1,7 @@
 module Backoffice
   class ApplicationController < ActionController::API
     include ActionController::HttpAuthentication::Basic::ControllerMethods
-    include ResponseHelper
+    include JsonResponseHelper
     before_action :htauth
 
     respond_to :json

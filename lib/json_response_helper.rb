@@ -1,4 +1,4 @@
-module ResponseHelper
+module JsonResponseHelper
   STATUS_CODE_MAPPINGS = { 'error' => 400,
                            'created' => 201,
                            'success' => 200 }.freeze
