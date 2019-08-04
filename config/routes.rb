@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       end
       resources :categories
       resources :ingredients
-      resources :sub_recipes
+      resources :recipes
     end
   end
 end

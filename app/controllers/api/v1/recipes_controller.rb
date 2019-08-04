@@ -1,40 +1,40 @@
 module Api
   module V1
-    class SubRecipesController < ::Api::ApplicationController
+    class RecipesController < ::Api::ApplicationController
       include JsonResponseHelper
       include ActiveModel::Validations
       before_action :authorize_request, except: :index
       before_action :load_company
-      before_action :load_sub_recipe, except: %i[create index]
+      before_action :load_recipe, except: %i[create index]
 
       def index
-        sub_recipes = SubRecipe.where(company_id: company.id)
-        show_response(sub_recipes, serializer, action_name)
+        recipes = Recipe.where(company_id: company.id)
+        show_response(recipes, serializer, action_name)
       end
 
       def create
-        sub_r = SubRecipe.new(permitted_params)
-        sub_r.company = company
-        sub_r.uid = SecureRandom.uuid
-        sub_r.measurement_unit = measurement_unit
-        ing_result = sub_r.save ? sub_recipe_ingredients(sub_r) : sub_recipe_invalid
-        result = ing_result ? sub_r : error_response(sub_r.errors)
+        rec = Recipe.new(permitted_params)
+        rec.company = company
+        rec.uid = SecureRandom.uuid
+        rec.measurement_unit = measurement_unit
+        ing_result = rec.save ? recipe_ingredients(rec) : recipe_invalid
+        result = ing_result ? rec : error_response(rec.errors)
         show_response(result, serializer, action_name)
       end
 
       def show
-        show_response(sub_recipe, serializer, 'show')
+        show_response(recipe, serializer, 'show')
       end
 
       def update
-        sub_recipe.assign_attributes(permitted_params)
-        sub_recipe.measurement_unit = measurement_unit
-        result = sub_recipe.save ? sub_recipe.reload : sub_recipe.errors
+        recipe.assign_attributes(permitted_params)
+        recipe.measurement_unit = measurement_unit
+        result = recipe.save ? recipe.reload : recipe.errors
         show_response(result, serializer, action_name)
       end
 
       def destroy
-        sub_recipe.destroy
+        recipe.destroy
         head :no_content
       end
 
@@ -49,23 +49,23 @@ module Api
       end
 
       def serializer
-        ::Api::V1::SubRecipeSerializer
+        ::Api::V1::RecipeSerializer
       end
 
       def measurement_unit
-        SubRecipe::MEASUREMENT_UNIT[permitted_params[:measurement_unit]]
+        Recipe::MEASUREMENT_UNIT[permitted_params[:measurement_unit]]
       end
 
-      def sub_recipe
-        @sub_recipe ||= ::SubRecipe.find_by(id: params[:id])
+      def recipe
+        @recipe ||= ::Recipe.find_by(id: params[:id])
       end
 
-      def load_sub_recipe
-        return sub_recipe_not_found unless sub_recipe
+      def load_recipe
+        return recipe_not_found unless recipe
       end
 
-      def sub_recipe_not_found
-        errors.add(:sub_recipe, 'not found')
+      def recipe_not_found
+        errors.add(:recipe, 'not found')
         resource = error_serializer.serialize(errors)
         render json: resource,
                each_serializer: serializer,
@@ -74,8 +74,8 @@ module Api
                status: status(resource)
       end
 
-      def sub_recipe_invalid
-        errors.add(:sub_recipe, 'invalid')
+      def recipe_invalid
+        errors.add(:recipe, 'invalid')
         resource = error_serializer.serialize(errors)
         render json: resource,
                each_serializer: serializer,
@@ -99,9 +99,9 @@ module Api
         ::Ingredient.find_by(uid: uid)
       end
 
-      def sub_recipe_ingredients(sub_recipe)
+      def recipe_ingredients(recipe)
         ingredient_list.each do |data|
-          SubRecipeIngredient.create(sub_recipe_id: sub_recipe.id, ingredient_id: data[:ingredient_id], quantity: data[:quantity])
+          RecipeIngredient.create(recipe_id: recipe.id, ingredient_id: data[:ingredient_id], quantity: data[:quantity])
         end
         true
       end

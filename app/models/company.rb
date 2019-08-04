@@ -3,5 +3,5 @@ class Company < ApplicationRecord
   has_many :users
   has_many :categories
   has_many :ingredients
-  has_many :sub_recipes
+  has_many :recipes
 end

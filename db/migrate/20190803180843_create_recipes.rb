@@ -1,6 +1,6 @@
-class CreateSubRecipes < ActiveRecord::Migration[5.2]
+class CreateRecipes < ActiveRecord::Migration[5.2]
   def change
-    create_table :sub_recipes do |t|
+    create_table :recipes do |t|
     	t.string :name
     	t.string :description
     	t.decimal :unit_price, precision: 10, null: false

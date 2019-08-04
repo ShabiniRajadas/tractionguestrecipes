@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::SubRecipesController do
+RSpec.describe Api::V1::RecipesController do
   let(:company) { FactoryBot.create(:company) }
   let(:user) { FactoryBot.create(:user, company_id: company.id) }
 
   describe '#index' do
-    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company_id: company.id) }
+    let(:recipe) { FactoryBot.create(:recipe, company_id: company.id) }
     let(:do_request) { get(:index) }
     let(:expected_body) do
-      [serialize_as_json(sub_recipe, serializer_class: Api::V1::SubRecipeSerializer)].to_json
+      [serialize_as_json(recipe, serializer_class: Api::V1::RecipeSerializer)].to_json
     end
 
     it 'responds with success' do
@@ -30,10 +30,10 @@ RSpec.describe Api::V1::SubRecipesController do
 
   describe '#create' do
     let(:ingredient) { FactoryBot.create(:ingredient, company: company) }
-    let(:sub_recipe_params) do
+    let(:recipe_params) do
       {
         data: {
-          type: 'sub_recipe',
+          type: 'recipe',
           attributes: {
             name: 'Tomato sauce',
             description: 'Sauce for burgers',
@@ -49,14 +49,14 @@ RSpec.describe Api::V1::SubRecipesController do
         }
       }
     end
-    let(:do_request) { post(:create, params: sub_recipe_params) }
+    let(:do_request) { post(:create, params: recipe_params) }
 
     it 'responds with success' do
       do_request
       expect(response).to be_successful
     end
 
-    it 'responds with sub_recipe' do
+    it 'responds with recipe' do
       do_request
       expect(json_response_body).to eq(
         'data' => {
@@ -70,29 +70,29 @@ RSpec.describe Api::V1::SubRecipesController do
             'ingredient_names' => ''
           },
           'id' => json_response_body['data']['id'],
-          'type' => 'sub_recipe'
+          'type' => 'recipe'
         }
       )
     end
   end
 
   describe '#show' do
-    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
-    let(:do_request) { get(:show, params: { id: sub_recipe.id }) }
-    let(:expected_body) { serialize_as_json(sub_recipe, serializer_class: Api::V1::SubRecipeSerializer).stringify_keys }
+    let(:recipe) { FactoryBot.create(:recipe, company: company) }
+    let(:do_request) { get(:show, params: { id: recipe.id }) }
+    let(:expected_body) { serialize_as_json(recipe, serializer_class: Api::V1::RecipeSerializer).stringify_keys }
 
     it 'responds with success' do
       do_request
       expect(response).to be_successful
     end
 
-    it 'responds with sub recipe' do
+    it 'responds with recipe' do
       do_request
       expect(json_response_body).to eq(
         'data' =>
           {
-            'id' => sub_recipe.id.to_s,
-            'type' => 'sub_recipe',
+            'id' => recipe.id.to_s,
+            'type' => 'recipe',
             'attributes' => expected_body.except!('id')
           }
       )
@@ -100,12 +100,12 @@ RSpec.describe Api::V1::SubRecipesController do
   end
 
   describe '#update' do
-    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
-    let(:sub_recipe_params) do
+    let(:recipe) { FactoryBot.create(:recipe, company: company) }
+    let(:recipe_params) do
       {
-        id: sub_recipe.id,
+        id: recipe.id,
         data: {
-          type: 'sub_recipe',
+          type: 'recipe',
           attributes: {
             name: 'Bread',
             description: 'Used for burgers',
@@ -114,14 +114,14 @@ RSpec.describe Api::V1::SubRecipesController do
         }
       }
     end
-    let(:do_request) { put(:update, params: sub_recipe_params) }
+    let(:do_request) { put(:update, params: recipe_params) }
 
     it 'responds with success' do
       do_request
       expect(response).to be_successful
     end
 
-    it 'responds with sub_recipe' do
+    it 'responds with recipe' do
       do_request
       expect(json_response_body).to eq(
         'data' => {
@@ -131,21 +131,21 @@ RSpec.describe Api::V1::SubRecipesController do
             'company_uid' => company.uid,
             'measurement_unit' => 'count',
             'uid' => json_response_body['data']['attributes']['uid'],
-            'ingredient_names' => sub_recipe.ingredients.pluck(:name).join(', '),
+            'ingredient_names' => recipe.ingredients.pluck(:name).join(', '),
             'unit_price' => 10.0
           },
           'id' => json_response_body['data']['id'],
-          'type' => 'sub_recipe'
+          'type' => 'recipe'
         }
       )
     end
   end
 
   describe 'DELETE #delete' do
-    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
+    let(:recipe) { FactoryBot.create(:recipe, company: company) }
     let(:destroy_params) do
       {
-        id: sub_recipe.id
+        id: recipe.id
       }
     end
 
