@@ -5,4 +5,7 @@ class SubRecipe < ApplicationRecord
   belongs_to :company
 
   validates :name, presence: true
+
+  MEASUREMENT_UNIT = { 'grams' => 1,
+                       'millilitres' => 2 }.freeze
 end
