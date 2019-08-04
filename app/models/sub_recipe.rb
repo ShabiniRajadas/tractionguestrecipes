@@ -1,6 +1,7 @@
 class SubRecipe < ApplicationRecord
   has_many :sub_recipe_ingredients
   has_many :ingredients, through: :sub_recipe_ingredients
+  accepts_nested_attributes_for :ingredients
 
   belongs_to :company
 

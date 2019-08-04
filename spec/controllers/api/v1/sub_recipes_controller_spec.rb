@@ -29,6 +29,7 @@ RSpec.describe Api::V1::SubRecipesController do
   end
 
   describe '#create' do
+    let(:ingredient) { FactoryBot.create(:ingredient, company: company) }
     let(:sub_recipe_params) do
       {
         data: {
@@ -37,7 +38,13 @@ RSpec.describe Api::V1::SubRecipesController do
             name: 'Tomato sauce',
             description: 'Sauce for burgers',
             unit_price: 5.0,
-            measurement_unit: 'grams'
+            measurement_unit: 'grams',
+            ingredients: [
+              {
+                uid: ingredient.uid,
+                quantity: 1
+              }
+            ]
           }
         }
       }
@@ -60,7 +67,7 @@ RSpec.describe Api::V1::SubRecipesController do
             'measurement_unit' => 'grams',
             'unit_price' => 5,
             'uid' => json_response_body['data']['attributes']['uid'],
-            'ingredient_names' => ""
+            'ingredient_names' => ''
           },
           'id' => json_response_body['data']['id'],
           'type' => 'sub_recipe'
