@@ -7,5 +7,6 @@ class SubRecipe < ApplicationRecord
   validates :name, presence: true
 
   MEASUREMENT_UNIT = { 'grams' => 1,
-                       'millilitres' => 2 }.freeze
+                       'millilitres' => 2,
+                       'count' => 3 }.freeze
 end
