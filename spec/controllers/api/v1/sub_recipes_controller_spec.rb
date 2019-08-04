@@ -67,4 +67,27 @@ RSpec.describe Api::V1::SubRecipesController do
       )
     end
   end
+
+  describe '#show' do
+    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
+    let(:do_request) { get(:show, params: { id: sub_recipe.id }) }
+    let(:expected_body) { serialize_as_json(sub_recipe, serializer_class: Api::V1::SubRecipeSerializer).stringify_keys }
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+
+    it 'responds with sub recipe' do
+      do_request
+      expect(json_response_body).to eq(
+        'data' =>
+          {
+            'id' => sub_recipe.id.to_s,
+            'type' => 'sub_recipe',
+            'attributes' => expected_body.except!('id')
+          }
+      )
+    end
+  end
 end

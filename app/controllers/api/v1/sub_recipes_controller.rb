@@ -5,6 +5,7 @@ module Api
       include ActiveModel::Validations
       before_action :authorize_request, except: :index
       before_action :load_company
+      before_action :load_sub_recipe, except: %i[create index]
 
       def index
         sub_recipes = SubRecipe.where(company_id: company.id)
@@ -19,6 +20,10 @@ module Api
         sub_r.measurement_unit = measurement_unit
         result = sub_r.save ? sub_r : error_response(sub_r.errors)
         show_response(result, serializer, action_name)
+      end
+
+      def show
+        show_response(sub_recipe, serializer, 'show')
       end
 
       private
@@ -36,6 +41,24 @@ module Api
 
       def measurement_unit
         SubRecipe::MEASUREMENT_UNIT[permitted_params[:measurement_unit]]
+      end
+
+      def sub_recipe
+        @sub_recipe ||= ::SubRecipe.find_by(id: params[:id])
+      end
+
+      def load_sub_recipe
+        return sub_recipe_not_found unless sub_recipe
+      end
+
+      def sub_recipe_not_found
+        errors.add(:sub_recipe, 'not found')
+        resource = error_serializer.serialize(errors)
+        render json: resource,
+               each_serializer: serializer,
+               adapter: :json_api,
+               key_transform: :underscore,
+               status: status(resource)
       end
     end
   end
