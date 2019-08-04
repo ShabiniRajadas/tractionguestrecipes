@@ -26,6 +26,13 @@ module Api
         show_response(sub_recipe, serializer, 'show')
       end
 
+      def update
+        sub_recipe.assign_attributes(permitted_params)
+        sub_recipe.measurement_unit = measurement_unit
+        result = sub_recipe.save ? sub_recipe.reload : sub_recipe.errors
+        show_response(result, serializer, action_name)
+      end
+
       private
 
       def permitted_params

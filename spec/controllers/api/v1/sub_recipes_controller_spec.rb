@@ -90,4 +90,45 @@ RSpec.describe Api::V1::SubRecipesController do
       )
     end
   end
+
+  describe '#update' do
+    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
+    let(:sub_recipe_params) do
+      {
+        id: sub_recipe.id,
+        data: {
+          type: 'sub_recipe',
+          attributes: {
+            name: 'Bread',
+            description: 'Used for burgers',
+            measurement_unit: 'count'
+          }
+        }
+      }
+    end
+    let(:do_request) { put(:update, params: sub_recipe_params) }
+
+    it 'responds with success' do
+      do_request
+      expect(response).to be_successful
+    end
+
+    it 'responds with sub_recipe' do
+      do_request
+      expect(json_response_body).to eq(
+        'data' => {
+          'attributes' => {
+            'name' => 'Bread',
+            'description' => 'Used for burgers',
+            'company_uid' => company.uid,
+            'measurement_unit' => 'count',
+            'uid' => json_response_body['data']['attributes']['uid'],
+            'unit_price' => 10.0
+          },
+          'id' => json_response_body['data']['id'],
+          'type' => 'sub_recipe'
+        }
+      )
+    end
+  end
 end
