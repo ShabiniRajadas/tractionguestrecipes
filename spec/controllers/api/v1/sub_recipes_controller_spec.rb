@@ -4,17 +4,6 @@ RSpec.describe Api::V1::SubRecipesController do
   let(:company) { FactoryBot.create(:company) }
   let(:user) { FactoryBot.create(:user, company_id: company.id) }
 
-  let(:headers) do
-    {
-      'Authorization' => token_generator(user.id, Time.now + 2.hours.to_i),
-      'COMPANY' => company.uid
-    }
-  end
-
-  before do
-    headers.each { |k, v| request.headers[k] = v }
-  end
-
   describe '#index' do
     let(:sub_recipe) { FactoryBot.create(:sub_recipe, company_id: company.id) }
     let(:do_request) { get(:index) }
@@ -26,6 +15,17 @@ RSpec.describe Api::V1::SubRecipesController do
       do_request
       expect(response).to be_successful
     end
+  end
+
+  let(:headers) do
+    {
+      'Authorization' => token_generator(user.id, Time.now + 2.hours.to_i),
+      'COMPANY' => company.uid
+    }
+  end
+
+  before do
+    headers.each { |k, v| request.headers[k] = v }
   end
 
   describe '#create' do
