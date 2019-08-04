@@ -33,6 +33,11 @@ module Api
         show_response(result, serializer, action_name)
       end
 
+      def destroy
+        sub_recipe.destroy
+        head :no_content
+      end
+
       private
 
       def permitted_params

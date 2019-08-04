@@ -131,4 +131,21 @@ RSpec.describe Api::V1::SubRecipesController do
       )
     end
   end
+
+  describe 'DELETE #delete' do
+    let(:sub_recipe) { FactoryBot.create(:sub_recipe, company: company) }
+    let(:destroy_params) do
+      {
+        id: sub_recipe.id
+      }
+    end
+
+    let(:do_request) { delete :destroy, params: destroy_params, format: :jsonapi }
+
+    it 'responds with status' do
+      do_request
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+    end
+  end
 end
