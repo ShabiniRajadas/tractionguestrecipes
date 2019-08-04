@@ -58,6 +58,7 @@ RSpec.describe Api::V1::IngredientsController do
             'description' => 'starters',
             'company_uid' => company.uid,
             'measurement_unit' => 'grams',
+            'uid' => json_response_body['data']['attributes']['uid'],
             'unit_price' => 10.0
           },
           'id' => json_response_body['data']['id'],
@@ -121,6 +122,7 @@ RSpec.describe Api::V1::IngredientsController do
             'description' => 'testing',
             'company_uid' => company.uid,
             'measurement_unit' => 'grams',
+            'uid' => json_response_body['data']['attributes']['id'],
             'unit_price' => 10.0
           },
           'id' => json_response_body['data']['id'],

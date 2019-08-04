@@ -59,7 +59,8 @@ RSpec.describe Api::V1::SubRecipesController do
             'company_uid' => company.uid,
             'measurement_unit' => 'grams',
             'unit_price' => 5,
-            'uid' => json_response_body['data']['attributes']['uid']
+            'uid' => json_response_body['data']['attributes']['uid'],
+            'ingredient_names' => ""
           },
           'id' => json_response_body['data']['id'],
           'type' => 'sub_recipe'
@@ -123,6 +124,7 @@ RSpec.describe Api::V1::SubRecipesController do
             'company_uid' => company.uid,
             'measurement_unit' => 'count',
             'uid' => json_response_body['data']['attributes']['uid'],
+            'ingredient_names' => sub_recipe.ingredients.pluck(:name).join(', '),
             'unit_price' => 10.0
           },
           'id' => json_response_body['data']['id'],
