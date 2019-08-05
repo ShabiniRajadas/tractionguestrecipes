@@ -54,5 +54,5 @@ test:
 production:
   <<: *default
   database: recipe_management_api_production
-  username: root
-  password: <%= ENV['RECIPE_MANAGEMENT_API_DATABASE_PASSWORD'] %>
+  username: <%= ENV['DATABASE_USERNAME']%>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
