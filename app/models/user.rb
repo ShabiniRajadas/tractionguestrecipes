@@ -9,6 +9,6 @@ class User < ApplicationRecord
                   'deleted' => 3 }.freeze
 
   def send_mail
-    UserJob.perform_now(self)
+    UserJob.perform_now(id)
   end
 end
