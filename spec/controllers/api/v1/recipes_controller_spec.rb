@@ -4,6 +4,7 @@ RSpec.describe Api::V1::RecipesController do
   let(:company) { FactoryBot.create(:company) }
   let(:user) { FactoryBot.create(:user, company_id: company.id) }
   let(:category) { FactoryBot.create(:category, company_id: company.id, uid: '815265183490498172846187') }
+  let(:ingredient) { FactoryBot.create(:ingredient, company: company, uid: '8567569879458798765') }
 
   describe '#index' do
     let(:recipe) { FactoryBot.create(:recipe, company_id: company.id, category_id: category.id) }
@@ -30,7 +31,6 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe '#create' do
-    let(:ingredient) { FactoryBot.create(:ingredient, company: company, uid: '8567569879458798765') }
     let(:recipe_params) do
       {
         data: {
@@ -103,7 +103,8 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe '#update' do
-    let(:recipe) { FactoryBot.create(:recipe, company: company, category: category) }
+    let(:recipe) { FactoryBot.create(:recipe, company: company, category: category, uid: '1647856415482918479') }
+    let(:ingredient_two) { FactoryBot.create(:ingredient, company: company, uid: '85675698866458798765') }
     let(:recipe_params) do
       {
         id: recipe.id,
@@ -112,7 +113,14 @@ RSpec.describe Api::V1::RecipesController do
           attributes: {
             name: 'Bread',
             description: 'Used for burgers',
-            measurement_unit: 'count'
+            measurement_unit: 'count',
+            category_id: category.uid,
+            ingredients: [
+              {
+                uid: ingredient_two.uid,
+                quantity: 1
+              }
+            ]
           }
         }
       }
@@ -133,9 +141,9 @@ RSpec.describe Api::V1::RecipesController do
             'description' => 'Used for burgers',
             'company_uid' => company.uid,
             'measurement_unit' => 'count',
-            'uid' => json_response_body['data']['attributes']['uid'],
+            'uid' => recipe.uid,
             'ingredient_names' => recipe.ingredients.pluck(:name).join(', '),
-            'unit_price' => 10.0,
+            'unit_price' => 10,
             'category_uid' => category.uid
           },
           'id' => json_response_body['data']['id'],

@@ -19,7 +19,15 @@ module Api
         created?(ingredients)
       end
 
-      def update; end
+      def update
+        @recipe.assign_attributes(measurement_unit: measurement_unit,
+                                  category: find_category)
+        return save_recipe unless @recipe_params[:ingredients].present?
+
+        @recipe.ingredients.destroy_all
+        ingredients = @recipe.save ? recipe_ingredients : error_response(@recipe.errors)
+        created?(ingredients)
+      end
 
       private
 
@@ -56,7 +64,11 @@ module Api
       end
 
       def created?(ingredients)
-        ingredients == true ? @recipe : ingredients
+        ingredients == true ? @recipe.reload : ingredients
+      end
+
+      def save_recipe
+        @recipe.save ? @recipe.reload : @recipe.errors
       end
     end
   end

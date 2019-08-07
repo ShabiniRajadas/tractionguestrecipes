@@ -6,7 +6,7 @@ module Api
       before_action :authorize_request, except: :index
       before_action :load_company
       before_action :load_recipe, except: %i[create index]
-      before_action :ingredients_invalid, only: :create
+      before_action :ingredients_invalid, only: %i[create update]
 
       def index
         recipes = Recipe.where(company_id: company.id)
@@ -62,7 +62,7 @@ module Api
       end
 
       def ingredients_invalid
-        return ingredients_error unless valid_ingredients(ingredient_uids)
+        return ingredients_error unless valid_ingredients
       end
 
       def ingredients_error
@@ -75,7 +75,7 @@ module Api
         params[:data][:attributes][:ingredients]
       end
 
-      def valid_ingredients(ingredient_uids)
+      def valid_ingredients
         ings_objects = ingredient_uids.map { |c| c[:uid] }
         actual_ings = Ingredient.where(uid: ings_objects)
         actual_ings.count == ingredient_uids.size
