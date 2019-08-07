@@ -6,6 +6,7 @@ module Api
       before_action :authorize_request, except: :index
       before_action :load_company
       before_action :load_recipe, except: %i[create index]
+      before_action :recipe_invalid, only: :create
 
       def index
         recipes = Recipe.where(company_id: company.id)
@@ -14,12 +15,16 @@ module Api
 
       def create
         rec = Recipe.new(permitted_params)
-        rec.company = company
-        rec.uid = SecureRandom.uuid
-        rec.measurement_unit = measurement_unit
-        ing_result = rec.save ? recipe_ingredients(rec) : recipe_invalid
-        result = ing_result ? rec : error_response(rec.errors)
-        show_response(result, serializer, action_name)
+        rec.assign_attributes(company: company,
+                              uid: SecureRandom.uuid,
+                              measurement_unit: measurement_unit,
+                              category: find_category(permitted_params[:category_id]))
+        ing_result = rec.save ? recipe_ingredients(rec) : error_response(rec.errors)
+        if ing_result == true
+          show_response(rec, serializer, action_name)
+        else
+          show_response(ing_result, serializer, action_name) if ing_result[:errors].present?
+        end
       end
 
       def show
@@ -44,7 +49,10 @@ module Api
         params.require(:data)
               .require(:attributes)
               .permit(:name,
-                      :description, :unit_price, :measurement_unit,
+                      :description,
+                      :unit_price,
+                      :measurement_unit,
+                      :category_id,
                       ingredients: [])
       end
 
@@ -75,7 +83,11 @@ module Api
       end
 
       def recipe_invalid
-        errors.add(:recipe, 'invalid')
+        return recipe_invalid_error unless valid_ingredients(ingredient_uids)
+      end
+
+      def recipe_invalid_error
+        errors.add(:recipe_ingredients, 'are invalid')
         resource = error_serializer.serialize(errors)
         render json: resource,
                each_serializer: serializer,
@@ -84,9 +96,13 @@ module Api
                status: status(resource)
       end
 
+      def ingredient_uids
+        params[:data][:attributes][:ingredients]
+      end
+
       def ingredient_list
         array = []
-        params[:data][:attributes][:ingredients].each do |data|
+        ingredient_uids.each do |data|
           ing = {}
           ing[:ingredient_id] = find_ingredient(data[:uid]).id unless find_ingredient(data[:uid]).blank?
           ing[:quantity] = data[:quantity]
@@ -97,6 +113,16 @@ module Api
 
       def find_ingredient(uid)
         ::Ingredient.find_by(uid: uid)
+      end
+
+      def find_category(uid)
+        ::Category.find_by(uid: uid)
+      end
+
+      def valid_ingredients(ingredient_uids)
+        ings_objects = ingredient_uids.map { |c| c[:uid] }
+        actual_ings = Ingredient.where(uid: ings_objects)
+        actual_ings.count == ingredient_uids.size
       end
 
       def recipe_ingredients(recipe)

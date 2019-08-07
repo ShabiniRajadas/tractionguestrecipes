@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::V1::RecipesController do
   let(:company) { FactoryBot.create(:company) }
   let(:user) { FactoryBot.create(:user, company_id: company.id) }
+  let(:category) { FactoryBot.create(:category, company_id: company.id, uid: '815265183490498172846187') }
 
   describe '#index' do
-    let(:recipe) { FactoryBot.create(:recipe, company_id: company.id) }
+    let(:recipe) { FactoryBot.create(:recipe, company_id: company.id, category_id: category.id) }
     let(:do_request) { get(:index) }
     let(:expected_body) do
       [serialize_as_json(recipe, serializer_class: Api::V1::RecipeSerializer)].to_json
@@ -29,7 +30,7 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe '#create' do
-    let(:ingredient) { FactoryBot.create(:ingredient, company: company) }
+    let(:ingredient) { FactoryBot.create(:ingredient, company: company, uid: '8567569879458798765') }
     let(:recipe_params) do
       {
         data: {
@@ -39,6 +40,7 @@ RSpec.describe Api::V1::RecipesController do
             description: 'Sauce for burgers',
             unit_price: 5.0,
             measurement_unit: 'grams',
+            category_id: category.uid,
             ingredients: [
               {
                 uid: ingredient.uid,
@@ -67,7 +69,8 @@ RSpec.describe Api::V1::RecipesController do
             'measurement_unit' => 'grams',
             'unit_price' => 5,
             'uid' => json_response_body['data']['attributes']['uid'],
-            'ingredient_names' => ''
+            'ingredient_names' => ingredient.name,
+            'category_uid' => category.uid
           },
           'id' => json_response_body['data']['id'],
           'type' => 'recipe'
@@ -77,7 +80,7 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe '#show' do
-    let(:recipe) { FactoryBot.create(:recipe, company: company) }
+    let(:recipe) { FactoryBot.create(:recipe, company: company, category: category) }
     let(:do_request) { get(:show, params: { id: recipe.id }) }
     let(:expected_body) { serialize_as_json(recipe, serializer_class: Api::V1::RecipeSerializer).stringify_keys }
 
@@ -100,7 +103,7 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe '#update' do
-    let(:recipe) { FactoryBot.create(:recipe, company: company) }
+    let(:recipe) { FactoryBot.create(:recipe, company: company, category: category) }
     let(:recipe_params) do
       {
         id: recipe.id,
@@ -132,7 +135,8 @@ RSpec.describe Api::V1::RecipesController do
             'measurement_unit' => 'count',
             'uid' => json_response_body['data']['attributes']['uid'],
             'ingredient_names' => recipe.ingredients.pluck(:name).join(', '),
-            'unit_price' => 10.0
+            'unit_price' => 10.0,
+            'category_uid' => category.uid
           },
           'id' => json_response_body['data']['id'],
           'type' => 'recipe'
@@ -142,7 +146,7 @@ RSpec.describe Api::V1::RecipesController do
   end
 
   describe 'DELETE #delete' do
-    let(:recipe) { FactoryBot.create(:recipe, company: company) }
+    let(:recipe) { FactoryBot.create(:recipe, company: company, category: category) }
     let(:destroy_params) do
       {
         id: recipe.id

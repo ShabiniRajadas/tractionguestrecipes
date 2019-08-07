@@ -4,6 +4,7 @@ class Recipe < ApplicationRecord
   accepts_nested_attributes_for :ingredients
 
   belongs_to :company
+  belongs_to :category
 
   validates :name, presence: true
 

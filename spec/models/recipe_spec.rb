@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Recipe do
   describe 'validations' do
-    let(:recipe) { FactoryBot.create(:recipe) }
+    let(:category) { FactoryBot.create(:category) }
+    let(:recipe) { FactoryBot.create(:recipe, category: category) }
 
     it 'validates name' do
       recipe.name = ''

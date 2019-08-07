@@ -3,7 +3,7 @@ module Api
     class RecipeSerializer < ActiveModel::Serializer
       type 'recipe'
       attributes :name, :description, :measurement_unit, :unit_price, :uid,
-                 :company_uid, :ingredient_names
+                 :company_uid, :category_uid, :ingredient_names
 
       def company_uid
         object&.company&.uid
@@ -11,6 +11,10 @@ module Api
 
       def measurement_unit
         ::Recipe::MEASUREMENT_UNIT.index(object&.measurement_unit)
+      end
+
+      def category_uid
+        object&.category.uid
       end
 
       def ingredient_names

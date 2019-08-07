@@ -54,7 +54,8 @@ RSpec.describe Api::V1::CategoriesController do
           'attributes' => {
             'name' => 'test',
             'description' => 'starters',
-            'company_uid' => company.uid
+            'company_uid' => company.uid,
+            'uid' => json_response_body['data']['attributes']['uid']
           },
           'id' => json_response_body['data']['id'],
           'type' => 'category'
@@ -114,7 +115,8 @@ RSpec.describe Api::V1::CategoriesController do
           'attributes' => {
             'name' => 'newtest',
             'description' => 'testing',
-            'company_uid' => company.uid
+            'company_uid' => company.uid,
+            'uid' => json_response_body['data']['attributes']['uid']
           },
           'id' => json_response_body['data']['id'],
           'type' => 'category'
