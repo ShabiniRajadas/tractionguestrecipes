@@ -37,6 +37,7 @@ module Api
       def upload_photo
         recipe.photo.attach(params.require[:photo])
         recipe.save
+        url_for(recipe.photo)
         result = recipe.photo.attached? ? recipe.reload : upload_error
         show_response(recipe, serializer, action_name)
       end

@@ -40,5 +40,20 @@ module RecipeManagementApi
       end
     end
     config.autoload_paths << Rails.root.join('lib')
+
+    config.active_job.queue_adapter = :sidekiq
+    # config.action_mailer.default_url_options = { host: 'mail.mansoorlootahadvocates.ae' }
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: ENV['ADDRESS'],
+      port: ENV['PORT'],
+      domain: ENV['DOMAIN'],
+      user_name: ENV['USER_NAME'],
+      password: ENV['PASSWORD'],
+      authentication: 'login',
+      enable_starttls_auto: false
+    }
+
   end
 end
