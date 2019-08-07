@@ -13,6 +13,14 @@ module Api
         end
       end
 
+      def logout
+        if @current_user
+          render json: { status: :ok }
+        else
+          render json: { error: 'unauthorized' }, status: :unauthorized
+        end
+      end
+
       private
 
       def login_params
