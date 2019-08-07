@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       end
       resources :categories
       resources :ingredients
-      resources :recipes
+      resources :recipes do
+        put :upload_photo, on: :member
+      end
     end
   end
 end

@@ -34,6 +34,13 @@ module Api
         head :no_content
       end
 
+      def upload_photo
+        recipe.photo.attach(params.require[:photo])
+        recipe.save
+        result = recipe.photo.attached? ? recipe.reload : upload_error
+        show_response(recipe, serializer, action_name)
+      end
+
       private
 
       def permitted_params
@@ -79,6 +86,11 @@ module Api
         ings_objects = ingredient_uids.map { |c| c[:uid] }
         actual_ings = Ingredient.where(uid: ings_objects)
         actual_ings.count == ingredient_uids.size
+      end
+
+      def upload_error
+        errors.add(:recipe, 'upload error')
+        error_serializer.serialize(errors)
       end
     end
   end
