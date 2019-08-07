@@ -14,11 +14,11 @@ module Api
       end
 
       def category_uid
-        object&.category.uid
+        object&.category&.uid
       end
 
       def ingredient_names
-        object&.ingredients.pluck(:name).join(', ')
+        object&.ingredients&.pluck(:name)&.join(', ')
       end
     end
   end
