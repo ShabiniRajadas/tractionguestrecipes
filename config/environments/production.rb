@@ -92,7 +92,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     enable_starttls_auto: true,
     address: ENV['ADDRESS'],
-    port: ENV['PORT'],
+    port: 587,
     domain: ENV['DOMAIN'],
     user_name: ENV['USER_NAME'],
     password: ENV['PASSWORD'],
