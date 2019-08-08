@@ -9,7 +9,6 @@ class User < ApplicationRecord
                   'deleted' => 3 }.freeze
 
   def send_mail
-    UserMailer.welcome_email(id).deliver_later
-    # UserJob.perform_now(id)
+    UserMailer.with(user_id: id).welcome_email.deliver_now
   end
 end
