@@ -1,7 +1,7 @@
 <h1>Welcome <%= @user.name %></h1>
 
-Please use the following credential,
-email: <%= @user.email %>
-password: <%= @user.password %>
+Please use the following credential,<br/><br/>
+email: <%= @user.email %><br/>
+password: <%= @user.unhashed_password %><br/>
 
 Please click here to visit the login page <%= @user.company.url %>
