@@ -70,7 +70,8 @@ RSpec.describe Api::V1::RecipesController do
             'unit_price' => 5,
             'uid' => json_response_body['data']['attributes']['uid'],
             'ingredient_names' => ingredient.name,
-            'category_uid' => category.uid
+            'category_uid' => category.uid,
+            'photo_url' => nil
           },
           'id' => json_response_body['data']['id'],
           'type' => 'recipe'
@@ -144,7 +145,8 @@ RSpec.describe Api::V1::RecipesController do
             'uid' => recipe.uid,
             'ingredient_names' => recipe.ingredients.pluck(:name).join(', '),
             'unit_price' => 10,
-            'category_uid' => category.uid
+            'category_uid' => category.uid,
+            'photo_url' => nil
           },
           'id' => json_response_body['data']['id'],
           'type' => 'recipe'

@@ -35,8 +35,9 @@ module Api
       end
 
       def upload_photo
-        recipe.photo.attach(params.require[:photo])
-        url_for(recipe.photo) if recipe.save
+        recipe.photo.attach(params[:photo])
+        url_for(recipe.photo)
+        recipe.save
         photo_uploaded(recipe)
         show_response(recipe, serializer, action_name)
       end
