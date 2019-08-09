@@ -79,8 +79,7 @@ RSpec.describe Backoffice::V1::CompaniesController do
             'uid' => json_response_body['data']['attributes']['uid'],
             'name' => 'company_name',
             'url' => 'testing.com',
-            'description' => 'Testing',
-            'image' => nil
+            'description' => 'Testing'
           },
           'id' => json_response_body['data']['id'],
           'type' => 'company'
@@ -124,8 +123,7 @@ RSpec.describe Backoffice::V1::CompaniesController do
             'uid' => json_response_body['data']['attributes']['uid'],
             'name' => 'newtest',
             'description' => 'testing',
-            'url' => 'test.com',
-            'image' => nil
+            'url' => 'test.com'
           },
           'id' => json_response_body['data']['id'],
           'type' => 'company'

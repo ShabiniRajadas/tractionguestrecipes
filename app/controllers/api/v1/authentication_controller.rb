@@ -1,7 +1,7 @@
 module Api
   module V1
     class AuthenticationController < ::Api::ApplicationController
-      before_action :authorize_request, except: :login
+      before_action :authorize_request, except: [:login, :reset_password]
 
       # POST /auth/login
       def login
@@ -10,6 +10,16 @@ module Api
           token_generation(@user)
         else
           render json: { error: 'unauthorized' }, status: :unauthorized
+        end
+      end
+
+      def reset_password
+        @user = User.find_by_email(params[:email])
+        if @user&.authenticate(params[:old_password])
+          @user.update(password: params[:new_password])
+          token_generation(@user)
+        else
+          render json: { error: 'User unavailable' }, status: :unauthorized
         end
       end
 
