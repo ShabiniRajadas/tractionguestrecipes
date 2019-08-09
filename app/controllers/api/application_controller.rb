@@ -3,7 +3,7 @@ module Api
     include JsonResponseHelper
 
     def not_found
-      render json: { error: 'not_found' }
+      render json: { error: 'not_found' }, status: :unauthorized
     end
 
     def authorize_request
