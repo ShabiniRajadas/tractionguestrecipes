@@ -7,7 +7,7 @@ module Backoffice
       before_action :load_user, only: %i[destroy]
 
       def index
-        users = User.all
+        users = User.where(company_id: company.id)
         show_response(users, serializer, action_name)
       end
 

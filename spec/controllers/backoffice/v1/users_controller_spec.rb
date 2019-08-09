@@ -16,7 +16,7 @@ RSpec.describe Backoffice::V1::UsersController do
   end
 
   describe '#index' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user, company: company) }
     let(:do_request) { get(:index) }
     let(:expected_body) do
       [serialize_as_json(user, serializer_class: Backoffice::V1::UserSerializer)].to_json
