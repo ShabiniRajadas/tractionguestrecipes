@@ -15,6 +15,7 @@ Rails.application.routes.draw do
           post :login
           delete :logout
           post :reset_password
+          post :renew_token
         end
       end
       resources :categories

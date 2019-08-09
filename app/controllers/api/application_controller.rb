@@ -10,6 +10,9 @@ module Api
       return not_valid_token if blacklisted_token.present?
 
       @current_user = TokenExtractor.new(request.headers).call
+      return not_found if @current_user.nil?
+
+      @current_user
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e

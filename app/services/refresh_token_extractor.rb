@@ -1,4 +1,4 @@
-class TokenExtractor
+class RefreshTokenExtractor
   HEADER_NAME = 'Authorization'.freeze
 
   attr_reader :headers
@@ -8,8 +8,8 @@ class TokenExtractor
   end
 
   def call
-    decoded_token = JsonWebToken.decode(token)
-    decoded_token['type'] == 'TOKEN' ? User.find(decoded_token[:user_id]) : nil
+    dec_token = JsonWebToken.decode(token)
+    dec_token['type'] == 'REFRESH' ? User.find(dec_token[:user_id]) : nil
   end
 
   def token
