@@ -39,7 +39,7 @@ module Backoffice
       end
 
       def user
-        @user = ::User.find_by(id: params[:id])
+        @user = ::User.find_by(id: params[:id], company_id: company.id)
       end
 
       def load_user

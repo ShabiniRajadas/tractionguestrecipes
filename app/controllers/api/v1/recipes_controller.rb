@@ -56,7 +56,7 @@ module Api
       end
 
       def recipe
-        @recipe ||= ::Recipe.find_by(id: params[:id])
+        @recipe ||= ::Recipe.find_by(id: params[:id], company_id: company.id)
       end
 
       def load_recipe

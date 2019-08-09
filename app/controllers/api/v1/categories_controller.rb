@@ -49,7 +49,7 @@ module Api
       end
 
       def category
-        @category ||= ::Category.find_by(id: params[:id])
+        @category ||= ::Category.find_by(id: params[:id], company: company)
       end
 
       def load_category

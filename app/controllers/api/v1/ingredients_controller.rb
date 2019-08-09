@@ -51,7 +51,7 @@ module Api
       end
 
       def ingredient
-        @ingredient ||= ::Ingredient.find_by(id: params[:id])
+        @ingredient ||= ::Ingredient.find_by(id: params[:id], company: company)
       end
 
       def load_ingredient

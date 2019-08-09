@@ -70,12 +70,12 @@ RSpec.describe Backoffice::V1::UsersController do
   end
 
   describe 'destroy' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user, company: company) }
     let(:do_request) { delete :destroy, params: { id: user.id }, format: :json }
 
     before do
       http_login
-      user
+      headers.each { |k, v| request.headers[k] = v }
     end
 
     it 'responds with success' do
