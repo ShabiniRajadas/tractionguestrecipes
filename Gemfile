@@ -24,7 +24,7 @@ gem 'sidekiq'
 
 gem 'aws-sdk-s3', require: false
 
-gem 'rails-erd'
+gem 'simplecov', require: false, group: :test
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
