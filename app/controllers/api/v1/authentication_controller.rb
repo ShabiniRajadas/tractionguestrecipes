@@ -15,6 +15,7 @@ module Api
 
       def logout
         if @current_user
+          token_blacklisted
           render json: { status: :ok }
         else
           render json: { error: 'unauthorized' }, status: :unauthorized
@@ -34,6 +35,17 @@ module Api
 
         render json: { token: token, exp: time.strftime('%m-%d-%Y %H:%M'),
                        username: user.name }, status: :ok
+      end
+
+      def token_blacklisted
+        if request.headers['Authorization']
+          ::JwtBlacklist.create(blacklisted_token: token)
+        end
+        true
+      end
+
+      def token
+        request.headers['Authorization'].split(' ').last
       end
     end
   end

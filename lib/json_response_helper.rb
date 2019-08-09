@@ -63,4 +63,14 @@ module JsonResponseHelper
            key_transform: :underscore,
            status: status(resource)
   end
+
+  def not_valid_token
+    errors.add(:token, 'invalid')
+    resource = error_serializer.serialize(errors)
+    render json: resource,
+           each_serializer: serializer,
+           adapter: :json_api,
+           key_transform: :underscore,
+           status: status(resource)
+  end
 end

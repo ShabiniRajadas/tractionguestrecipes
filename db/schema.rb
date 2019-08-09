@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_144450) do
+ActiveRecord::Schema.define(version: 2019_08_09_085112) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -59,6 +59,12 @@ ActiveRecord::Schema.define(version: 2019_08_06_144450) do
     t.integer "measurement_unit"
     t.decimal "unit_price", precision: 10, null: false
     t.integer "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "jwt_blacklists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "blacklisted_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

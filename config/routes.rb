@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :auth, controller: :authentication do
         post :login, on: :collection
+        delete :logout, on: :collection
       end
       resources :categories
       resources :ingredients
