@@ -1,5 +1,5 @@
 class RefreshTokenExtractor
-  HEADER_NAME = 'Authorization'.freeze
+  HEADER_NAME = 'RENEWALTOKEN'.freeze
 
   attr_reader :headers
 

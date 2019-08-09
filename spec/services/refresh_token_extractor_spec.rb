@@ -14,7 +14,7 @@ describe RefreshTokenExtractor do
 
     context 'when partner present' do
       context 'when header present' do
-        let(:headers) { { 'Authorization' => token } }
+        let(:headers) { { 'RENEWALTOKEN' => token } }
 
         it 'finds user' do
           expect(extract_token).to eq user

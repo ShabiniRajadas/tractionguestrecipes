@@ -24,14 +24,12 @@ module Api
       end
 
       def renew_token
-        @current_user = RefreshTokenExtractor.new(request.headers).call
-        if @current_user
-          token = token_generation(@current_user)
-          render json: { token: token[:token],
-                         token_exp: formated_time(token[:time]),
-                         username: @current_user.name }, status: :ok
+        @current_user = TokenExtractor.new(request.headers).call
+        if @current_user.nil?
+          @user = RefreshTokenExtractor.new(request.headers).call
+          @user.present? ? renewal(@user) : invalid_renew_token
         else
-          render json: { error: 'unauthorized' }, status: :unauthorized
+          render json: { error: 'Invalid request' }, status: :unauthorized
         end
       end
 
@@ -86,6 +84,17 @@ module Api
 
       def formated_time(time)
         time.strftime('%m-%d-%Y %H:%M')
+      end
+
+      def renewal(user)
+        token = token_generation(user)
+        render json: { token: token[:token],
+                       token_exp: formated_time(token[:time]),
+                       username: user.name }, status: :ok
+      end
+
+      def invalid_renew_token
+        render json: { error: 'Invalid token' }, status: :unauthorized
       end
     end
   end
