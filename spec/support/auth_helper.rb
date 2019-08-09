@@ -7,6 +7,6 @@ module AuthHelper
 
   def token_generator(user_id, exp)
     exp = exp.to_i
-    JWT.encode({ user_id: user_id, exp: exp }, Rails.application.secrets.secret_key_base)
+    JWT.encode({ user_id: user_id, exp: exp }, Rails.application.credentials.dig(:secret_key_base))
   end
 end

@@ -10,7 +10,7 @@ module Api
       end
 
       def measurement_unit
-        ::Ingredient::MEASUREMENT_UNIT.index(object&.measurement_unit)
+        ::Ingredient::MEASUREMENT_UNIT.key(object&.measurement_unit)
       end
     end
   end

@@ -11,7 +11,7 @@ module Api
       end
 
       def measurement_unit
-        ::Recipe::MEASUREMENT_UNIT.index(object&.measurement_unit)
+        ::Recipe::MEASUREMENT_UNIT.key(object&.measurement_unit)
       end
 
       def category_uid
