@@ -17,7 +17,7 @@ RSpec.describe Api::V1::AuthenticationController do
     it 'responds with a token' do
       do_request
       expect(json_response_body['token']).not_to be_empty
-      expect(json_response_body['exp']).not_to be_empty
+      expect(json_response_body['refresh_token']).not_to be_empty
       expect(json_response_body['user_name']).to eq(user.name)
     end
   end
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::AuthenticationController do
   describe '#reset_password' do
     let(:company) { FactoryBot.create(:company) }
     let(:user) { FactoryBot.create(:user, company: company) }
-    
+
     let(:do_request) do
       post(:reset_password,
            params: { email: user.email,
@@ -40,9 +40,7 @@ RSpec.describe Api::V1::AuthenticationController do
 
     it 'responds with a token' do
       do_request
-      expect(json_response_body['token']).not_to be_empty
-      expect(json_response_body['exp']).not_to be_empty
-      expect(json_response_body['user_name']).to eq(user.name)
+      expect(json_response_body['message']).not_to be_empty
     end
   end
 

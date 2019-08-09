@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe TokenExtractor do
+describe RefreshTokenExtractor do
   describe '#call' do
     subject(:extract_token) { described_class.new(headers).call }
 
     let(:user) { FactoryBot.create(:user) }
 
     let(:token) do
-      JWT.encode({ user_id: user.id, type: 'TOKEN',
+      JWT.encode({ user_id: user.id, type: 'REFRESH',
                    exp: (Time.now + 2.hours.to_i).to_i },
                  Rails.application.credentials.dig(:secret_key_base))
     end
