@@ -124,4 +124,21 @@ RSpec.describe Api::V1::CategoriesController do
       )
     end
   end
+
+  describe 'DELETE #delete' do
+    let(:category) { FactoryBot.create(:category, company: company) }
+    let(:destroy_params) do
+      {
+        id: category.id
+      }
+    end
+
+    let(:do_request) { delete :destroy, params: destroy_params, format: :jsonapi }
+
+    it 'responds with status' do
+      do_request
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+    end
+  end
 end

@@ -133,4 +133,25 @@ RSpec.describe Backoffice::V1::CompaniesController do
       )
     end
   end
+
+  describe 'DELETE #delete' do
+    let(:company) { FactoryBot.create(:company) }
+    let(:destroy_params) do
+      {
+        id: company.id
+      }
+    end
+
+    let(:do_request) { delete :destroy, params: destroy_params, format: :jsonapi }
+
+    before do
+      http_login
+    end
+
+    it 'responds with status' do
+      do_request
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+    end
+  end
 end
